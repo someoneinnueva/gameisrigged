@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Is Rigged — Economics & Game Theory Podcast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0D0C0B;
+      --surface:   #16140F;
+      --surface2:  #1D1B15;
+      --text:      #EAE4D8;
+      --muted:     #8C8477;
+      --red:       #A83E2C;
+      --yellow:    #B08A3E;
+      --border:    rgba(234,228,216,0.09);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5vw;
+      height: 60px;
+      background: rgba(12,12,12,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Fraunces', serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { font-style: italic; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .btn-spotify {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #1DB954;
+      color: #000;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.45rem 1rem;
+      border-radius: 2px;
+      transition: opacity 0.2s;
+    }
+    .btn-spotify:hover { opacity: 0.85; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 100px 5vw 60px;
+      gap: 4rem;
+      position: relative;
+    }
+
+    .hero-left { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .hero-title {
+      font-family: 'Fraunces', serif;
+      line-height: 0.98;
+      margin-bottom: 1.75rem;
+    }
+    .hero-title .line1 {
+      display: block;
+      font-size: clamp(3rem, 6.5vw, 5.25rem);
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+    .hero-title .line2 {
+      display: block;
+      font-size: clamp(3rem, 6.5vw, 5.25rem);
+      font-weight: 500;
+      font-style: italic;
+      letter-spacing: 0.005em;
+      color: var(--text);
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 440px;
+      margin-bottom: 2.25rem;
+      font-weight: 300;
+    }
+    .hero-desc strong { color: var(--text); font-weight: 500; }
+
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--red);
+      color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #8f3325; }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--text); color: var(--text); }
+
+    /* right side graphic */
+    .hero-right {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .quote-panel {
+      width: 100%;
+      max-width: 400px;
+      border-left: 2px solid var(--red);
+      padding: 0.5rem 0 0.5rem 2.25rem;
+    }
+
+    .quote-mark {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: 3.5rem;
+      line-height: 1;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+    }
+
+    .quote-text {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 1.6rem;
+      line-height: 1.4;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .quote-source {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 5vw; }
+
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 60px;
+    }
+
+    .section-heading {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── ABOUT / MISSION ── */
+    #about {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-body {
+      max-width: 640px;
+      margin-top: 2.5rem;
+      color: var(--muted);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+    .about-body p + p { margin-top: 1.1rem; }
+    .about-body strong { color: var(--text); font-weight: 500; }
+    .about-body p:first-of-type::first-letter {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: 3.4rem;
+      line-height: 0.8;
+      float: left;
+      color: var(--red);
+      padding-right: 0.6rem;
+      padding-top: 0.35rem;
+    }
+
+    /* ── EPISODES ── */
+    #episodes { padding-top: 100px; }
+
+    .episodes-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .episode-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: border-color 0.25s;
+      margin-bottom: 1.5rem;
+    }
+
+    .episode-player {
+      margin: -0.5rem 0 1.5rem;
+    }
+    .episode-player iframe {
+      display: block;
+      border-radius: 3px;
+    }
+    .episode-card:hover { border-color: rgba(242,237,228,0.18); }
+
+    .episode-inner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 2rem;
+      padding: 2rem 2.5rem;
+      align-items: center;
+    }
+
+    .ep-num {
+      font-family: 'Fraunces', serif;
+      font-size: 3.5rem;
+      color: var(--red);
+      line-height: 1;
+      min-width: 3rem;
+    }
+
+    .ep-body {}
+
+    .ep-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 0.5rem;
+    }
+
+    .ep-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.85rem;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+
+    .ep-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 580px;
+      font-weight: 300;
+    }
+
+    .ep-concepts {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .concept-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.25rem 0.6rem;
+      border-radius: 2px;
+    }
+
+    .ep-cta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: flex-end;
+      min-width: 130px;
+    }
+
+    .ep-play {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #1DB954;
+      color: #000;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.6rem 1.1rem;
+      border-radius: 2px;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    .ep-play:hover { opacity: 0.85; }
+
+    .ep-status {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* NEW badge */
+    .badge-new {
+      display: inline-block;
+      background: var(--red);
+      color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+      position: relative;
+      top: -3px;
+    }
+
+    /* coming soon card */
+    .episode-card.coming-soon {
+      opacity: 0.45;
+    }
+    .episode-card.coming-soon .ep-num {
+      color: var(--muted);
+    }
+
+    /* ── HOST ── */
+    #host {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+
+    .host-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 5rem;
+      align-items: start;
+      margin-top: 3rem;
+    }
+
+    .host-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .host-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--red) 0%, #8B1A0D 100%);
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-size: 2.5rem;
+      color: var(--text);
+    }
+
+    .host-name {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+    .host-role {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .host-bio {
+      color: var(--muted);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+    .host-bio p + p { margin-top: 1.1rem; }
+    .host-bio strong { color: var(--text); font-weight: 500; }
+
+    .host-detail-row {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      margin-bottom: 0.85rem;
+    }
+    .host-detail-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      min-width: 90px;
+      padding-top: 0.15rem;
+    }
+    .host-detail-val {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+    .host-detail-val strong { color: var(--text); font-weight: 500; }
+
+    .host-about-text {
+      color: var(--muted);
+      line-height: 1.85;
+      font-weight: 300;
+      font-size: 0.95rem;
+      border-left: 2px solid var(--border);
+      padding-left: 1.5rem;
+      margin-top: 1.75rem;
+    }
+
+    /* ── SUBSCRIBE ── */
+    #subscribe {
+      text-align: center;
+      padding: 120px 5vw;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .subscribe-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.25rem;
+    }
+
+    .subscribe-heading {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: clamp(2.5rem, 5vw, 4.25rem);
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+
+    .subscribe-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 420px;
+      margin: 0 auto 2.5rem;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .platform-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-platform {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 2px;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .btn-platform:hover { background: var(--surface); border-color: rgba(242,237,228,0.2); }
+    .btn-platform.spotify { border-color: #1DB954; color: #1DB954; }
+    .btn-platform.spotify:hover { background: rgba(29,185,84,0.08); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      color: var(--text);
+    }
+    .footer-logo span { font-style: italic; }
+
+    .footer-copy {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 100px; }
+      .hero-right { display: none; }
+      .host-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .host-card { max-width: 280px; }
+      .episode-inner { grid-template-columns: auto 1fr; }
+      .ep-cta { flex-direction: row; align-items: center; grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      section { padding: 70px 1.25rem; }
+      .hero { padding: 90px 1.25rem 50px; }
+      .episode-inner { padding: 1.5rem; gap: 1.25rem; }
+      footer { flex-direction: column; text-align: center; }
+      .ep-num { font-size: 2.5rem; }
+    }
+
+    /* ── ANIMATIONS ── */
+    @media (prefers-reduced-motion: no-preference) {
+      .fade-up {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.55s ease, transform 0.55s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#"><span>Game</span> Is Rigged</a>
+    <ul class="nav-links">
+      <li><a href="#episodes">Episodes</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#host">Host</a></li>
+      <li>
+        <a class="btn-spotify" href="https://open.spotify.com/show/033oTAaNlFfsJAOVmCeeDi" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          Listen on Spotify
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="home">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Economics &amp; Game Theory Podcast</p>
+      <h1 class="hero-title">
+        <span class="line1">THE GAME</span>
+        <span class="line2">IS RIGGED</span>
+      </h1>
+      <p class="hero-desc">
+        Each episode takes one system — a policy, a platform, a market — and traces the incentives underneath it. Not the ones in the <strong>mission statement.</strong> The ones that actually decide who wins.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn-primary" href="https://open.spotify.com/show/033oTAaNlFfsJAOVmCeeDi" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          Listen Now
+        </a>
+        <a class="btn-ghost" href="#episodes">See Episodes ↓</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="quote-panel">
+        <div class="quote-mark">&ldquo;</div>
+        <p class="quote-text">Every dollar of rewards is funded by someone who didn't earn any.</p>
+        <div class="quote-source">Episode 03 — Credit Card Rewards</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT / WHAT IS THIS -->
+  <section id="about">
+    <p class="section-label">The Show</p>
+    <h2 class="section-heading">How the Show Works</h2>
+
+    <div class="about-body">
+      <p>Every episode, <strong>Game Is Rigged</strong> takes a system that's supposed to work and lays out why it doesn't. Rarely because anyone involved is corrupt — usually because <strong>the incentives reward something other than the stated goal.</strong></p>
+      <p>That covers government programs that end up punishing the people they were built for, business models that profit from friction, and everyday norms that turn people into strategic players whether they mean to or not.</p>
+      <p>We use <strong>economics</strong> and <strong>game theory</strong> to trace the incentives behind the headlines, then explain why the outcome was predictable from the start.</p>
+    </div>
+  </section>
+
+  <!-- EPISODES -->
+  <section id="episodes">
+    <div class="episodes-header">
+      <div>
+        <p class="section-label">Episodes</p>
+        <h2 class="section-heading">Season One</h2>
+      </div>
+      <a class="btn-ghost" href="https://open.spotify.com/show/033oTAaNlFfsJAOVmCeeDi" target="_blank" rel="noopener">All Episodes →</a>
+    </div>
+
+    <!-- EP 01 -->
+    <div class="episode-card fade-up">
+      <div class="episode-inner">
+        <div class="ep-num">01</div>
+        <div class="ep-body">
+          <div class="ep-tag">Education &amp; Policy</div>
+          <div class="ep-title">The School Arms Race</div>
+          <p class="ep-desc">
+            No Child Left Behind was supposed to close the achievement gap. Instead, it created a system where teachers erased kids' wrong answers, entire school budgets were gutted for test prep, and the students who needed the most help were deliberately abandoned. We break down Goodhart's Law, Campbell's Law, and how rational people respond to an irrational game.
+          </p>
+          <div class="ep-concepts">
+            <span class="concept-tag">Goodhart's Law</span>
+            <span class="concept-tag">Campbell's Law</span>
+            <span class="concept-tag">Educational Triage</span>
+            <span class="concept-tag">NCLB</span>
+            <span class="concept-tag">Property Tax Inequality</span>
+          </div>
+        </div>
+        <div class="ep-cta">
+          <a class="ep-play" href="https://open.spotify.com/show/033oTAaNlFfsJAOVmCeeDi" target="_blank" rel="noopener">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            Play on Spotify
+          </a>
+          <span class="ep-status">13:47</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="episode-player fade-up">
+      <iframe title="Episode 1: No Child Left Behind: The Policy That Started the School Arms Race" allowtransparency="true" height="150" width="100%" style="border: none; min-width: min(100%, 430px); height:150px;" scrolling="no" data-name="pb-iframe-player" src="https://www.podbean.com/player-v2/?i=f5sxc-1b10d5b-pb&from=pb6admin&share=1&download=1&rtl=0&fonts=Arial&skin=1&font-color=auto&logo_link=episode_page&btn-skin=7" loading="lazy"></iframe>
+    </div>
+
+    <!-- EP 02 -->
+    <div class="episode-card fade-up">
+      <div class="episode-inner">
+        <div class="ep-num">02</div>
+        <div class="ep-body">
+          <div class="ep-tag">Big Tech</div>
+          <div class="ep-title">The Subscription Trap</div>
+          <p class="ep-desc">
+            Free trials that quietly bill you, cancellation flows buried five clicks deep, "are you sure?" screens designed to wear you down — subscription businesses aren't broken, they're working exactly as intended. We break down how companies weaponize inertia and friction against their own customers, and why the incentive to make quitting hard will always beat the incentive to make you happy.
+          </p>
+          <div class="ep-concepts">
+            <span class="concept-tag">Dark Patterns</span>
+            <span class="concept-tag">Sludge</span>
+            <span class="concept-tag">Negative Option Billing</span>
+            <span class="concept-tag">Switching Costs</span>
+          </div>
+        </div>
+        <div class="ep-cta">
+          <a class="ep-play" href="https://open.spotify.com/episode/6wf6arRRf38dlqaaD0aFIh" target="_blank" rel="noopener">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            Play on Spotify
+          </a>
+          <span class="ep-status">13:32</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="episode-player fade-up">
+      <iframe title="Episode 2: The Subscription Trap" allowtransparency="true" height="150" width="100%" style="border: none; min-width: min(100%, 430px);height:150px;" scrolling="no" data-name="pb-iframe-player" src="https://www.podbean.com/player-v2/?i=tbpmh-1b1493f-pb&from=pb6admin&share=1&download=1&rtl=0&fonts=Arial&skin=1&font-color=auto&logo_link=episode_page&btn-skin=7" loading="lazy"></iframe>
+    </div>
+
+    <!-- EP 03 -->
+    <div class="episode-card fade-up">
+      <div class="episode-inner">
+        <div class="ep-num">03</div>
+        <div class="ep-body">
+          <div class="ep-tag">Personal Finance <span class="badge-new">New</span></div>
+          <div class="ep-title">Credit Card Rewards</div>
+          <p class="ep-desc">
+            A card swipe feels like winning, but the reward isn't free. We trace how interchange fees get built into everything you buy, then follow the money to see who actually funds airline miles and cash back. Using basic economics and behavioral psychology, we explain why cards push you to spend more, why lower earners end up subsidizing the rewards of the wealthy, and why saved-up miles can lose half their value overnight.
+          </p>
+          <div class="ep-concepts">
+            <span class="concept-tag">Interchange Fees</span>
+            <span class="concept-tag">Regressive Subsidy</span>
+            <span class="concept-tag">Behavioral Psychology</span>
+            <span class="concept-tag">Loyalty Point Devaluation</span>
+          </div>
+        </div>
+        <div class="ep-cta">
+          <a class="ep-play" href="https://open.spotify.com/episode/3bPgQrp4HjfN68HRA1TeU4" target="_blank" rel="noopener">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            Play on Spotify
+          </a>
+          <span class="ep-status">12:08</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="episode-player fade-up">
+      <iframe title="Episode 3: Credit Card Rewards" allowtransparency="true" height="150" width="100%" style="border: none; min-width: min(100%, 430px);height:150px;" scrolling="no" data-name="pb-iframe-player" src="https://www.podbean.com/player-v2/?i=vc7ph-1b22827-pb&from=pb6admin&share=1&download=1&rtl=0&fonts=Arial&skin=1&font-color=auto&logo_link=episode_page&btn-skin=7" loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <!-- HOST -->
+  <section id="host">
+    <p class="section-label">The Host</p>
+    <h2 class="section-heading">Anay Mehta</h2>
+
+    <div class="host-grid">
+      <div class="host-card">
+        <!-- SWAP: replace the initials div below with an <img> tag once you have a photo -->
+        <!-- <img src="your-photo.jpg" alt="Anay Mehta" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin:0 auto 1rem;display:block;"> -->
+        <div class="host-avatar">AM</div>
+        <div class="host-name">Anay Mehta</div>
+        <div class="host-role">Host &amp; Creator</div>
+      </div>
+
+      <div class="host-bio">
+
+        <!-- ── QUICK FACTS — edit these lines freely ── -->
+        <div class="host-detail-row">
+          <span class="host-detail-label">Based in</span>
+          <span class="host-detail-val">Bay Area, CA</span>
+        </div>
+        <div class="host-detail-row">
+          <span class="host-detail-label">Background</span>
+          <span class="host-detail-val"><!-- placeholder — e.g. "Economics student" or "Self-taught economist and CS nerd" --></span>
+        </div>
+        <div class="host-detail-row">
+          <span class="host-detail-label">Interests</span>
+          <span class="host-detail-val"><!-- placeholder — e.g. "Game theory, behavioral economics, how systems fail" --></span>
+        </div>
+        <div class="host-detail-row">
+          <span class="host-detail-label">Also into</span>
+          <span class="host-detail-val"><!-- placeholder — anything else you want people to know: sports, hobbies, etc --></span>
+        </div>
+
+        <!-- ── MAIN BIO — write whatever you want here ── -->
+        <div class="host-about-text">
+          <!-- Placeholder bio — replace with your own words. Keep it real, keep it short. -->
+          <p>Hey, I'm Anay — I live in the Bay Area and started this show after noticing how often the systems around us reward the wrong thing. Write a few sentences here about who you are, why you started this, and what you care about. It doesn't have to be long. Just make it sound like you.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBSCRIBE -->
+  <section id="subscribe">
+    <p class="subscribe-label">Listen &amp; Subscribe</p>
+    <h2 class="subscribe-heading">Get New<br>Episodes</h2>
+    <p class="subscribe-sub">New episodes go up once each system has been fully worked through — no fixed schedule, no filler.</p>
+    <div class="platform-buttons">
+      <a class="btn-platform spotify" href="https://open.spotify.com/show/033oTAaNlFfsJAOVmCeeDi" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+        Listen on Spotify
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo"><span>Game</span> Is Rigged</div>
+    <div class="footer-copy">© 2026 Anay Mehta · gameisrigged.com</div>
+  </footer>
+
+  <script>
+    // Fade-up on scroll
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
