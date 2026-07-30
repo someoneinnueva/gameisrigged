@@ -94,11 +94,10 @@
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       padding: 100px 5vw 60px;
-      gap: 4rem;
       position: relative;
     }
 
@@ -626,8 +625,7 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 100px; }
-      .hero-right { display: none; }
+      .hero { min-height: auto; padding-top: 100px; }
       .host-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .host-card { max-width: 280px; }
       .episode-inner { grid-template-columns: auto 1fr; }
@@ -692,14 +690,6 @@
           Listen Now
         </a>
         <a class="btn-ghost" href="#episodes">See Episodes ↓</a>
-      </div>
-    </div>
-
-    <div class="hero-right">
-      <div class="quote-panel">
-        <div class="quote-mark">"</div>
-        <p class="quote-text">If you don't know what the incentive is, you're the incentive.</p>
-        <p class="quote-source">A rule this show keeps proving right</p>
       </div>
     </div>
   </header>
