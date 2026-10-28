@@ -435,6 +435,14 @@ section { padding: 100px 5vw; }
   margin-bottom: 0.6rem;
 }
 
+.ep-guest {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--muted);
+  margin: -0.25rem 0 0.7rem;
+}
+
 .ep-desc {
   font-size: 0.88rem;
   color: var(--muted);
