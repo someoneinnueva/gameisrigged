@@ -447,6 +447,8 @@ section { padding: 100px 5vw; }
   font-weight: 300;
 }
 
+.ep-desc + .ep-desc { margin-top: 0.8rem; }
+
 .ep-concepts {
   display: flex;
   gap: 0.5rem;
