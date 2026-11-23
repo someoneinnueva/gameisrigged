@@ -372,7 +372,7 @@ section { padding: 100px 5vw; }
   border-radius: 3px;
   overflow: hidden;
   transition: border-color 0.25s;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 .episode-card:hover { border-color: var(--border-strong); }
 
@@ -386,7 +386,12 @@ section { padding: 100px 5vw; }
 }
 .ep-art svg { width: 100%; max-width: 170px; height: auto; }
 
-.episode-player { margin: -0.5rem 0 1.5rem; }
+.episode-player {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--border);
+  padding: 1rem 1.5rem;
+  background: var(--surface2);
+}
 .episode-player iframe { display: block; border-radius: 3px; }
 
 .episode-inner {
